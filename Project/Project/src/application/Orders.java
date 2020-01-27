@@ -1,5 +1,8 @@
 package application;
 
+import javafx.scene.control.CheckBox;
+
+
 public class Orders {
 	
 	private String name;
@@ -11,7 +14,7 @@ public class Orders {
 	private String type;
 	private String installments;
 	private String Storetype;
-	
+	private CheckBox ch;
 	
 	//Get
 	
@@ -87,6 +90,12 @@ public class Orders {
 	}
 	public void setStoretype(String storetype) {
 		Storetype = storetype;
+	}
+	public CheckBox getCh() {
+		return ch;
+	}
+	public void setCh(CheckBox ch) {
+		this.ch = ch;
 	}
 	
 	
