@@ -32,7 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+import java.text.SimpleDateFormat;
 import javafx.scene.input.MouseEvent;
 
 import java.io.FileInputStream;
@@ -44,16 +44,17 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 //import java.sql.Date;
-import java.sql.Date;
+//import java.sql.Date;
 //import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.ResourceBundle;
-
+import java.util.Date;
 import javax.net.ssl.SSLException;
 import javax.swing.JOptionPane;
 
@@ -65,10 +66,16 @@ import javafx.event.EventHandler;
 
 public class HomeController implements Initializable {
 	ObservableList<Orders> OrdersList = FXCollections.observableArrayList(); // Orders Table View
+	ObservableList<Orders> RemovedOrdersList = FXCollections.observableArrayList(); // RemovedOrders Table View
+
 	ObservableList<Busket> BusketList = FXCollections.observableArrayList(); // Orders Table View
 	ObservableList<Reports> ReportsList = FXCollections.observableArrayList(); // Orders Table View
 	ObservableList<Messages> MessagesList = FXCollections.observableArrayList(); // Messages Table View
-
+//Current Date//
+  Date date= new Date();
+	  
+	  long timer = date.getTime();
+	  Timestamp today = new Timestamp(timer);//Current Date
 	public User user = new User();
 	public User userreg = new User();
 	public Reports report = new Reports();
@@ -276,6 +283,41 @@ public class HomeController implements Initializable {
 
 	@FXML
 	private TableColumn<Orders, String> Numberofinstallments;
+	
+	    @FXML
+	    private TableColumn<Orders, CheckBox> orderselect;
+
+	    @FXML
+	    private Button removeorder;
+
+	    @FXML
+	    private Button removedorder;
+
+	    @FXML
+	    private Pane ordersviewrequest;
+	    @FXML
+	    private Pane ordersview;
+	    
+	    @FXML
+	    private TableView<Orders> TableOrderrequests;
+
+	    @FXML
+	    private TableColumn<Orders, String> CustomerNameorder;
+
+	    @FXML
+	    private TableColumn<Orders, String> ProductNameorder;
+
+	    @FXML
+	    private TableColumn<Orders, String> PurchaseDateorder;
+
+	    @FXML
+	    private TableColumn<Orders, CheckBox> confirmselect;
+
+	    @FXML
+	    private Button confirmremove;
+
+	
+	
 	// ends here
 
 	// Complains
@@ -489,6 +531,9 @@ private Button messagesbtn;
 	public int b = 0;
 	public int c = 0;
 	public int d = 0;
+	
+	
+	
 	@SuppressWarnings("deprecation")
 	@FXML
 	void handleClicks(ActionEvent event) {
@@ -1015,6 +1060,8 @@ CatControlpnl.toFront();
 
 					while (rs.next()) {
 						Orders order = new Orders();
+						CheckBox ch = new CheckBox("");
+						order.setCh(ch);
 						order.setname(rs.getString(1));
 						order.setproduct(rs.getString(2));
 						order.setprice(rs.getString(3));
@@ -1030,7 +1077,10 @@ CatControlpnl.toFront();
 					ResultSet rs = con.createStatement()
 							.executeQuery("SELECT * From Orders WHERE Customer= '" + client.name + "'");
 					while (rs.next()) {
+						CheckBox ch = new CheckBox("");
+						
 						Orders order = new Orders();
+						order.setCh(ch);
 						order.setname(rs.getString(1));
 						order.setproduct(rs.getString(2));
 						order.setprice(rs.getString(3));
@@ -1058,12 +1108,162 @@ CatControlpnl.toFront();
 			CreditCard.setCellValueFactory(new PropertyValueFactory<>("card"));
 			Typeofpayment.setCellValueFactory(new PropertyValueFactory<>("type"));
 			Numberofinstallments.setCellValueFactory(new PropertyValueFactory<>("installments"));
+			orderselect.setCellValueFactory(new PropertyValueFactory<>("ch"));
 			TableOrder.setItems(null);
 			TableOrder.setItems(OrdersList);
 			TableOrder.refresh();
 
 		}
+		if (event.getSource() == removeorder ) {
+			DbConnect db = new DbConnect();
+			Connection connection = db.getConnection();
+			Connection con = db.getConnection();
+			Statement stmt;
+			PreparedStatement st;
+			try {
 
+				stmt = connection.createStatement();
+
+				for (int i = 0; i < TableOrder.getItems().size(); i++) {
+					if (TableOrder.getItems().get(i).getCh().isSelected()) {
+						String sql = "SELECT * FROM Orders WHERE Customer = '" + user.getUsername()
+								+ " '  AND `Product Name` = '" + TableOrder.getItems().get(i).getProduct()  + " '  AND `Purchase Date` = '" + TableOrder.getItems().get(i).getDate() + "'  ";
+				
+						try {
+							ResultSet rs = stmt.executeQuery(sql);
+							
+							if (rs.next()) {
+								String sq = "INSERT INTO `RemovedOrders`(`username`, `Productname`, `PurchaseDate`) VALUES (?,?,?)";
+
+								st = con.prepareStatement(sq);
+								st.setString(1, user.getUsername());
+								st.setString(2, rs.getString(2));
+								st.setString(3, rs.getString(4));
+								
+								st.executeUpdate();
+								
+							}
+							// System.out.println(rs.getString(1)+" "+rs.getString(2)+" " +
+							// rs.getString(3));
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		if(event.getSource() == removedorder)
+		{
+			     ordersview.setVisible(false);
+			     ordersviewrequest.setVisible(true);
+			     oblist.clear();
+					DbConnect db = new DbConnect();
+					int i = 0;
+
+					try {
+						Connection connection = db.getConnection();
+						ResultSet rs = connection.createStatement().executeQuery("SELECT * From RemovedOrders");
+						while (rs.next()) {
+							CheckBox ch = new CheckBox("" + i);
+							Orders order = new Orders();
+							order.setname(rs.getString(1));
+							order.setproduct(rs.getString(2));
+							order.setdate(rs.getString(3));
+							order.setCh(ch);
+							RemovedOrdersList.add(order);
+							i++;
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					CustomerNameorder.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+					ProductNameorder.setCellValueFactory(new PropertyValueFactory<>("product"));
+
+					PurchaseDateorder.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+					
+					confirmselect.setCellValueFactory(new PropertyValueFactory<>("ch"));
+					TableOrderrequests.setItems(null);
+					TableOrderrequests.setItems(RemovedOrdersList);     
+		}
+		
+		if(event.getSource()== confirmremove)
+		{
+			DbConnect db = new DbConnect();
+			Connection connection = db.getConnection();
+			Connection con = db.getConnection();
+			Statement stmt;
+			PreparedStatement st;
+			Statement stm;
+			
+				
+			
+			try {
+
+				stmt = connection.createStatement();
+
+				for (int i = 0; i < TableOrderrequests.getItems().size(); i++) {
+					if (TableOrderrequests.getItems().get(i).getCh().isSelected()) {
+						String sql = "SELECT * FROM RemovedOrders WHERE username = '" + TableOrderrequests.getItems().get(i).getName()
+						+ " '  AND `Productname` = '" + TableOrderrequests.getItems().get(i).getProduct()  + " '  AND `PurchaseDate` = '" + TableOrderrequests.getItems().get(i).getDate() + "'  ";
+						try {
+							System.out.println(TableOrderrequests.getItems().get(i).getName() + " " +TableOrderrequests.getItems().get(i).getProduct() + " " + TableOrderrequests.getItems().get(i).getDate()  );
+							ResultSet rs = stmt.executeQuery(sql);
+							if (rs.next()) {
+								
+
+								
+								String sql1 = "DELETE FROM `RemovedOrders` WHERE `username` = '" + rs.getString(1) + " '  AND `Productname` = '"
+										+ rs.getString(2) + "'";
+								Timestamp t;
+								//String a = rs.getString(3);
+								t = Timestamp.valueOf(rs.getString(3));
+								
+								
+								//
+								
+								 long milliseconds1 = today.getTime();
+								  long milliseconds2 = t.getTime();
+								  long diff = milliseconds1 - milliseconds2;
+								  long diffHours = diff / (60 * 60 * 1000);
+								 System.out.println(diffHours);
+								
+								     
+								//
+								if(diffHours < 3 && diffHours > 1)
+								{
+									System.out.println("yes");
+								}
+								stm = con.createStatement();
+							stm.execute(sql1);
+					
+
+							}
+							
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					
+
+					}
+				}
+			
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+		}
+		
 		if (event.getSource() == addbus && custom.getText().equals("Custom Item")) {
 			DbConnect db = new DbConnect();
 			Connection connection = db.getConnection();
@@ -1417,7 +1617,28 @@ CatControlpnl.toFront();
 		   ordercombo.setItems(orderlist);
 
 		   sizecombo.setItems(sizelist);
+//test
+		   Timestamp time = new Timestamp(2015-1900,9-1,04,03,02,5,1);
+		   System.out.println(time);
+		   Timestamp time2 = new Timestamp(2015-1900,9-1,05,03,02,5,1);
+		   System.out.println(time2);
+	
+	
+	  long milliseconds1 = time2.getTime();
+	  long milliseconds2 = time.getTime();
+	  long diff = milliseconds1 - milliseconds2;
+	  long diffHours = diff / (60 * 60 * 1000);
+	 
+	
+	      System.out.println("Time in Milliseconds: " + timer);
+	  
+	 
+	  System.out.println("Current Time Stamp: " + today);
+	  
+	System.out.println(diffHours);
+	
 
+		   //testend
 		   
 		//ends
 		DbConnect db = new DbConnect();
