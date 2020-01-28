@@ -23,7 +23,7 @@
       </Pane>
       <Pane fx:id="ProductIDPane" layoutX="74.0" layoutY="153.0" prefHeight="126.0" prefWidth="216.0" visible="false">
          <children>
-            <ComboBox fx:id="ProductIDCB" layoutY="24.0" onContextMenuRequested="#pane" prefWidth="150.0" promptText="Product id" />
+            <ComboBox fx:id="ProductIDCB" layoutY="24.0" prefWidth="150.0" promptText="Product ID" />
             <Label layoutY="77.0" text="Sale % :">
                <font>
                   <Font size="18.0" />
@@ -34,7 +34,7 @@
       </Pane>
       <Pane fx:id="ProductNamePane" layoutX="74.0" layoutY="153.0" prefHeight="126.0" prefWidth="216.0" visible="false">
          <children>
-            <ComboBox fx:id="ProductNameCB" layoutY="25.0" onContextMenuRequested="#pane" prefWidth="150.0" promptText="Product name" />
+            <ComboBox fx:id="ProductNameCB" layoutY="25.0" prefWidth="150.0" promptText="Product name" />
             <Label layoutY="79.0" text="Sale % :">
                <font>
                   <Font size="18.0" />
