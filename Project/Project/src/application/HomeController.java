@@ -73,7 +73,7 @@ public class HomeController implements Initializable {
 	ObservableList<Messages> MessagesList = FXCollections.observableArrayList(); // Messages Table View
 //Current Date//
   Date date= new Date();
-	  
+	public long refund = 0;  
 	  long timer = date.getTime();
 	  Timestamp today = new Timestamp(timer);//Current Date
 	public User user = new User();
@@ -534,7 +534,7 @@ private Button messagesbtn;
 	
 	
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "null" })
 	@FXML
 	void handleClicks(ActionEvent event) {
 		// Working on Purshase Scene
@@ -737,10 +737,11 @@ CatControlpnl.toFront();
 
 			DbConnect db = new DbConnect();
 			PreparedStatement stms;
+			PreparedStatement stm;
 			String q = "INSERT INTO `Orders`(`Customer`, `Product Name`, `Product Price`, `Purchase Date`, `Delivery Date`, `Credit Card`, `Type of payment`, `Number of installments`, `Quanity`, `Message`,`Address`,`Type`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			Connection connection = db.getConnection();
-
+Connection con = db.getConnection();
 			try {
 				for (int i = 0; i < tablepursh.getItems().size(); i++) {
 					stms = connection.prepareStatement(q);
@@ -750,8 +751,8 @@ CatControlpnl.toFront();
 
 					java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 					stms.setTimestamp(4, date);
-					stms.setString(5, ((TextField) orderdat.getEditor()).getText());
-
+				//	stms.setString(5, ((TextField) orderdat.getEditor()).getText());
+stms.setString(5, Timestamp.valueOf(orderdat.getValue().atTime(0,0)).toString());
 					stms.setString(6, user.getCard());
 					stms.setString(7, "1");
 					stms.setString(8, combo.getValue());
@@ -760,9 +761,20 @@ CatControlpnl.toFront();
 					stms.setString(11, orderaddress.getText());
 					stms.setString(12, user.getType());
 					stms.executeUpdate();
-
-					// c+=Integer.parseInt(tablepursh.getItems().get(i).getPrice()) *
-					// Integer.parseInt(tablepursh.getItems().get(i).getQuanity());
+					{
+						String sql2 = "DELETE FROM `Busket` WHERE `Username` = ?";
+						stm = con.prepareStatement(sql2);
+						stm.setString(1, user.getUsername());
+						stm.executeUpdate();
+						stm.close();
+					}
+				}
+				
+				{
+					
+				
+					
+					
 				}
 
 			} catch (SQLException e) {
@@ -1133,13 +1145,14 @@ CatControlpnl.toFront();
 							ResultSet rs = stmt.executeQuery(sql);
 							
 							if (rs.next()) {
-								String sq = "INSERT INTO `RemovedOrders`(`username`, `Productname`, `PurchaseDate`) VALUES (?,?,?)";
+								String sq = "INSERT INTO `RemovedOrders`(`username`, `Productname`, `PurchaseDate`,`Price`,`DeliveryDate`) VALUES (?,?,?,?,?)";
 
 								st = con.prepareStatement(sq);
 								st.setString(1, user.getUsername());
 								st.setString(2, rs.getString(2));
 								st.setString(3, rs.getString(4));
-								
+								st.setString(4, rs.getString(3));
+								st.setString(5, rs.getString(5));
 								st.executeUpdate();
 								
 							}
@@ -1175,6 +1188,8 @@ CatControlpnl.toFront();
 							order.setname(rs.getString(1));
 							order.setproduct(rs.getString(2));
 							order.setdate(rs.getString(3));
+							order.setprice(rs.getString(4));
+							order.setdelivery(rs.getString(5));
 							order.setCh(ch);
 							RemovedOrdersList.add(order);
 							i++;
@@ -1224,15 +1239,15 @@ CatControlpnl.toFront();
 								String sql1 = "DELETE FROM `RemovedOrders` WHERE `username` = '" + rs.getString(1) + " '  AND `Productname` = '"
 										+ rs.getString(2) + "'";
 								Timestamp t;
-								//String a = rs.getString(3);
-								t = Timestamp.valueOf(rs.getString(3));
+							
+								t = Timestamp.valueOf(rs.getString(5));
 								
 								
-								//
+						
 								
 								 long milliseconds1 = today.getTime();
 								  long milliseconds2 = t.getTime();
-								  long diff = milliseconds1 - milliseconds2;
+								  long diff = milliseconds2 - milliseconds1;
 								  long diffHours = diff / (60 * 60 * 1000);
 								 System.out.println(diffHours);
 								
@@ -1240,11 +1255,29 @@ CatControlpnl.toFront();
 								//
 								if(diffHours < 3 && diffHours > 1)
 								{
-									System.out.println("yes");
+									//a += Long.parseLong(rs.getString(4));
+									System.out.println("50% has been refuded.");
+								}
+								else if(diffHours < 1)
+								{
+									System.out.println("Nothing Returned");
+								}
+								else if(diffHours > 3)
+								{
+									System.out.println("Refund Everything");
 								}
 								stm = con.createStatement();
-							stm.execute(sql1);
+							if(stm.execute(sql1));
+							{
+								stm.close();
+								String sql2 = "DELETE FROM `Orders` WHERE `Customer` = '" + rs.getString(1) + " '  AND `Product Name` = '"
+										+ rs.getString(2) + "'";
+								stm = con.createStatement();
+								stm.execute(sql2);
+								stm.close();
+							}
 					
+
 
 							}
 							
@@ -1276,9 +1309,7 @@ CatControlpnl.toFront();
 
 				for (int i = 0; i < table.getItems().size(); i++) {
 					if (table.getItems().get(i).getCheckbox().isSelected()) {
-						// System.out.println(table.getItems().get(i).getId());
-						// String sql = "SELECT * FROM item WHERE ID = '" +
-						// table.getItems().get(i).getId()+ "";
+						
 						String sql = "SELECT * FROM item WHERE ID = '" + table.getItems().get(i).getId()
 								+ " '  AND ID = '" + table.getItems().get(i).getId() + "'";
 
