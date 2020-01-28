@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="693.0" prefWidth="893.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SaleController">
+   <children>
+      <Label layoutX="80.0" layoutY="69.0" prefHeight="66.0" prefWidth="165.0" text="Create a sale" textFill="#9d1aa4">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Button fx:id="confirmSaleBtn" layoutX="382.0" layoutY="316.0" mnemonicParsing="false" onAction="#ConfirmSale" text="Confirm sale" visible="false" />
+      <Button fx:id="CancelBtn" layoutX="74.0" layoutY="316.0" mnemonicParsing="false" onAction="#ReturnToMain" text="Cancel" visible="false" />
+      <Pane fx:id="SelectionPane" layoutX="79.0" layoutY="153.0" prefHeight="126.0" prefWidth="238.0">
+         <children>
+            <Button fx:id="SelectNameBtn" layoutY="14.0" mnemonicParsing="false" onAction="#getProductNames" text="Select Product by name" />
+            <Button fx:id="Selectid" layoutY="63.0" mnemonicParsing="false" onAction="#getProductIDs" text="Select Product by id" />
+         </children>
+      </Pane>
+      <Pane fx:id="ProductIDPane" layoutX="74.0" layoutY="153.0" prefHeight="126.0" prefWidth="216.0" visible="false">
+         <children>
+            <ComboBox fx:id="ProductIDCB" layoutY="24.0" onContextMenuRequested="#pane" prefWidth="150.0" promptText="Product id" />
+            <Label layoutY="77.0" text="Sale % :">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="salePercentTXT2" layoutX="75.0" layoutY="75.0" prefHeight="31.0" prefWidth="77.0" />
+         </children>
+      </Pane>
+      <Pane fx:id="ProductNamePane" layoutX="74.0" layoutY="153.0" prefHeight="126.0" prefWidth="216.0" visible="false">
+         <children>
+            <ComboBox fx:id="ProductNameCB" layoutY="25.0" onContextMenuRequested="#pane" prefWidth="150.0" promptText="Product name" />
+            <Label layoutY="79.0" text="Sale % :">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="salePercent1TXT" layoutX="75.0" layoutY="77.0" prefHeight="31.0" prefWidth="77.0" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
