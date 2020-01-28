@@ -183,6 +183,9 @@ public class HomeController implements Initializable {
 	@FXML
 	private Button OrderRepbtn;
 	// order reports end
+	
+	@FXML
+	private Button Salebtn;
 
 	// SignUp Panel
 
@@ -1360,6 +1363,21 @@ CatControlpnl.toFront();
 				e.printStackTrace();
 			}
 		}
+		
+		if (event.getSource() == Salebtn) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Sale.fxml"));
+
+			try {
+				Parent root = (Parent) loader.load();
+				SaleController sale = loader.getController();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(root));
+				stage.show();							
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		// Login to database using an account
 		if (event.getSource() == login) {
 
@@ -1404,6 +1422,7 @@ CatControlpnl.toFront();
 							btnworker.setVisible(true);
 							btnsetting.setVisible(true);
 							OrderRepbtn.setVisible(true);
+							Salebtn.setVisible(true);
 
 						}
 					} else {
