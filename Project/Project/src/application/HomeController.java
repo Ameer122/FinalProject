@@ -535,7 +535,12 @@ private Button messagesbtn;
 	public int c = 0;
 	public int d = 0;
 	
-	
+    @FXML
+    private Button backcat;
+    @FXML
+    private Button backmsg;
+    @FXML
+    private Button Backorder;
 	
 	@SuppressWarnings({ "deprecation", "null" })
 	@FXML
@@ -598,6 +603,7 @@ private Button messagesbtn;
     	
 if(event.getSource() == sendmsg)
 {
+	backmsg.setVisible(true);
 	Messagecombo.clear();
 	msgreadpnl.setVisible(false);
 	msgsendpnl.setVisible(true);
@@ -785,12 +791,31 @@ stms.setString(5, Timestamp.valueOf(orderdat.getValue().atTime(0,0)).toString())
 				e.printStackTrace();
 			}
 		}
-
+if(event.getSource() == backcat)
+{
+	catpan.setVisible(true);
+	Checkbusket.setVisible(false);
+	pnlCat.setVisible(true);
+	mybusket.setVisible(true);
+	backcat.setVisible(false);
+}
+if(event.getSource() == Backorder)
+{
+	ordersviewrequest.setVisible(false);
+	ordersview.setVisible(true);
+}
+if(event.getSource() == backmsg)
+{
+	msgreadpnl.setVisible(true);
+	msgsendpnl.setVisible(false);
+	backmsg.setVisible(false);
+}
 		if (event.getSource() == mybusket) {
 			Checkbusket.setVisible(true);
 			catpan.setVisible(false);
 			pnlCat.setVisible(false);
 			mybusket.setVisible(false);
+			backcat.setVisible(true);
 			orderuser.setText(client.name);
 			orderphone.setText(user.getphone());
 			ordermail.setText(user.getEmail());
@@ -800,6 +825,8 @@ stms.setString(5, Timestamp.valueOf(orderdat.getValue().atTime(0,0)).toString())
 			try {
 				Connection con = db.getConnection();
 
+				
+				
 				{
 					ResultSet rs = con.createStatement()
 							.executeQuery("SELECT * From Busket WHERE Username= '" + client.name + "'");
@@ -945,6 +972,7 @@ stms.setString(5, Timestamp.valueOf(orderdat.getValue().atTime(0,0)).toString())
 						System.out.print(r.getComplain() + " " + r.getDate() + " " + r.getEmail() + " " + r.getPhone()
 								+ " " + r.getStatus() + " " + r.getUsername() + "   ,   ");
 					}
+					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -991,12 +1019,15 @@ stms.setString(5, Timestamp.valueOf(orderdat.getValue().atTime(0,0)).toString())
 				stms.setString(4, report.getComplain());
 				stms.setString(5, "Pending");
 
+				
 				if (stms.executeUpdate() > 0) {
 					JOptionPane.showMessageDialog(null,
 							"We have recieved your complain, we will make sure to sort things out in 24 hours!");
 					CatControlpnl.setVisible(true);
+					Complaintpnl.setVisible(false);
 					CatControlpnl.toFront();
 
+					
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -1667,30 +1698,7 @@ stms.setString(5, Timestamp.valueOf(orderdat.getValue().atTime(0,0)).toString())
 		   ordercombo.setItems(orderlist);
 
 		   sizecombo.setItems(sizelist);
-//test
-		   Timestamp time = new Timestamp(2015-1900,9-1,04,03,02,5,1);
-		   System.out.println(time);
-		   Timestamp time2 = new Timestamp(2015-1900,9-1,05,03,02,5,1);
-		   System.out.println(time2);
-	
-	
-	  long milliseconds1 = time2.getTime();
-	  long milliseconds2 = time.getTime();
-	  long diff = milliseconds1 - milliseconds2;
-	  long diffHours = diff / (60 * 60 * 1000);
-	 
-	
-	      System.out.println("Time in Milliseconds: " + timer);
-	  
-	 
-	  System.out.println("Current Time Stamp: " + today);
-	  
-	System.out.println(diffHours);
-	
 
-		   //testend
-		   
-		//ends
 		DbConnect db = new DbConnect();
 
 		try {
