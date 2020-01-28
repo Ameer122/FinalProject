@@ -119,9 +119,41 @@ public class SaleController {
 		}
     }
 
+    private void updateDatabase(int num, double sale) {
+    	String query;
+    	DbConnect db = new DbConnect();
+		Connection con = db.getConnection();
+		Statement stmt;
+		try {
+			stmt = con.createStatement();		
+	    	if(num ==1) { // change db based on name
+	    		query = "UPDATE `item` SET `Price`= `Price`*" + (sale/100) + " where Name = '" + ProductNameCB.getSelectionModel().getSelectedItem() + "'";
+	    		
+	    	}
+	    	else {
+	    		query = "UPDATE `item` SET `Price`= `Price`*" + (sale/100) + " where ID = '" + ProductIDCB.getSelectionModel().getSelectedItem() + "'";
+	    		
+	    	}
+	    	stmt.executeUpdate(query);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
     @FXML
     void ConfirmSale(ActionEvent event) {
-    	System.out.println("here");
+    	if (ProductNamePane.isVisible()) {
+    		if(salePercent1TXT.getText() == null) {
+    			return;
+    		}   		
+    		updateDatabase(1, Double.parseDouble(salePercent1TXT.getText()));
+    	}
+    	if (ProductIDPane.isVisible()) {
+    		if(salePercentTXT2.getText() == null) {
+    			return;
+    		}
+    		updateDatabase(2, Double.parseDouble(salePercentTXT2.getText()));	
+    	}    	
+    	
     }
-
 }
