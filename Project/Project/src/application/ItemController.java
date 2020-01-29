@@ -185,8 +185,8 @@ a = file.length();
 stms.setString(3,  Desription.getText());    
 stms.setString(4, Price.getText());
 stms.setBinaryStream(5, fis, a);
-stms.setString(5, Price.getText());
 stms.setString(6, Price.getText());
+stms.setString(7, Price.getText());
 
 if(stms.executeUpdate()>0) {
 cl.sendtoserver();

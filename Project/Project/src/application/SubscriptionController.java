@@ -39,6 +39,7 @@ public class SubscriptionController {
     	if(typeMenu.getText().equals("Type")) {
     		return;
     	}
+    	confimLbl.setText("");
     	DbConnect db = new DbConnect();
 		Connection con = db.getConnection();
 		Statement stmt, stmt2;
@@ -49,8 +50,16 @@ public class SubscriptionController {
 			ResultSet rs = stmt2.executeQuery(query);
 			while(rs.next()) {
 				//System.out.println(rs.getString(1));
-				if(!rs.getString(1).equals("Monthly") && !rs.getString(1).equals("Yearly")) {
+				if(rs.getString(1) != null) {
+					if( !rs.getString(1).equals("Monthly") && !rs.getString(1).equals("Yearly")) {
 			    	query = "UPDATE users SET Subsciption= '" + typeMenu.getText()+ "' where username = '" + username +"'";
+			    	stmt.executeUpdate(query);
+			    	confimLbl.setText("Confirmed");
+				}
+				}
+				else
+				{
+					query = "UPDATE users SET Subsciption= '" + typeMenu.getText()+ "' where username = '" + username +"'";
 			    	stmt.executeUpdate(query);
 			    	confimLbl.setText("Confirmed");
 				}

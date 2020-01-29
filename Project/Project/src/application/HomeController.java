@@ -1,6 +1,9 @@
 package application;
 
 import javafx.collections.FXCollections;
+import java.util.Properties;
+
+
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -756,8 +759,9 @@ CatControlpnl.toFront();
 			PreparedStatement stms;
 			PreparedStatement stm;
 			String q = "INSERT INTO `Orders`(`Customer`, `Product Name`, `Product Price`, `Purchase Date`, `Delivery Date`, `Credit Card`, `Type of payment`, `Number of installments`, `Quanity`, `Message`,`Address`,`Type`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-
+String ql = " UPDATE `Messages` SET `Sender`= Server,`Message`= Purchase confirmed WHERE `Receiver` = '"+ user.getUsername() +"'";
 			Connection connection = db.getConnection();
+			
 Connection con = db.getConnection();
 			try {
 				for (int i = 0; i < tablepursh.getItems().size(); i++) {
@@ -2060,4 +2064,6 @@ user.setType(resultset.getString(12));
 		item.setprice(editedCell.getNewValue().toString());
 
 	}
+	
+	
 }
