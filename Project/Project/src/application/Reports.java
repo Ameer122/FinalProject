@@ -1,6 +1,7 @@
 package application;
 
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.CheckBox;
 
 public class Reports {
 	
@@ -10,8 +11,7 @@ public class Reports {
 	private String phone;
 	private String complain;
 	private String status;
-	
-
+	private CheckBox ch;
 	 
 	//GET
 	
@@ -73,6 +73,12 @@ public class Reports {
 	{
 		this.phone= str;
 		
+	}
+	public CheckBox getCh() {
+		return ch;
+	}
+	public void setCh(CheckBox ch) {
+		this.ch = ch;
 	}
 	
 	

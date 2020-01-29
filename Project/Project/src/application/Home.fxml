@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -33,7 +26,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
    <children>
       <VBox prefHeight="600.0" prefWidth="300.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -503,6 +496,7 @@
                                     <TableColumn fx:id="phonecol" prefWidth="75.0" text="Phone" />
                                     <TableColumn fx:id="complaintcol" prefWidth="104.79998779296875" text="Complaint" />
                                     <TableColumn fx:id="statuscol" prefWidth="75.2000732421875" text="Status" />
+                                    <TableColumn fx:id="chck" prefWidth="75.2000732421875" text="Check" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -510,15 +504,6 @@
                               </TableView>
                               <HBox prefHeight="20.0" prefWidth="719.0" spacing="10.0">
                                  <children>
-                                    <Button fx:id="addcomplaint" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="22.0" prefWidth="146.0" stylesheets="@application.css" text="Add Complaints" textFill="WHITE">
-                                       <graphic>
-                                          <ImageView fitHeight="17.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/icons8_Home_32px.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
                                     <Button fx:id="readcomplaint" graphicTextGap="10.0" layoutX="335.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="22.0" prefWidth="146.0" stylesheets="@application.css" text="Read Complaint" textFill="WHITE">
                                        <graphic>
                                           <ImageView fitHeight="17.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
