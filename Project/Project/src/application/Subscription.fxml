@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="594.0" prefWidth="748.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SubscriptionController">
+   <children>
+      <Label layoutX="90.0" layoutY="79.0" prefHeight="66.0" prefWidth="165.0" text="Subscribe" textFill="#9d1aa4">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <MenuButton fx:id="typeMenu" layoutX="90.0" layoutY="172.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="127.0" text="Type">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#setMonthly" text="Monthly" />
+          <MenuItem mnemonicParsing="false" onAction="#setYearly" text="Yearly" />
+        </items>
+      </MenuButton>
+      <Button fx:id="subBtn" layoutX="90.0" layoutY="238.0" mnemonicParsing="false" onAction="#Subscribe" text="Subscribe" />
+      <Label fx:id="confimLbl" layoutX="339.0" layoutY="323.0" />
+   </children>
+</AnchorPane>
