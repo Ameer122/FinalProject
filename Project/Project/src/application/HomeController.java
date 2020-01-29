@@ -358,7 +358,8 @@ public class HomeController implements Initializable {
 
 	@FXML
 	private TableColumn<Reports, String> statuscol;
-
+	@FXML
+	private TableColumn<Reports, String> chck;
 	@FXML
 	private Button addcomplaint;
 
@@ -1220,6 +1221,7 @@ else
 						String sql = "SELECT * FROM Orders WHERE Customer = '" + user.getUsername()
 								+ " '  AND `Product Name` = '" + TableOrder.getItems().get(i).getProduct()  + " '  AND `Purchase Date` = '" + TableOrder.getItems().get(i).getDate() + "'  ";
 				
+						
 						try {
 							ResultSet rs = stmt.executeQuery(sql);
 							
@@ -1236,6 +1238,7 @@ else
 								if(  st.executeUpdate()>0)
 								{
 								JOptionPane.showMessageDialog(null, "Your Request to remove your order has been received.");
+								Orderspnl.setVisible(false);
 								CatControlpnl.setVisible(true);
 								CatControlpnl.toFront();
 								}
@@ -1248,6 +1251,48 @@ else
 						}
 
 					}
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		if(event.getSource() == readcomplaint)
+		{
+			DbConnect db = new DbConnect();
+			Connection connection = db.getConnection();
+			Connection con = db.getConnection();
+			Statement stmt;
+			Statement st;
+			try {
+				
+				stmt = connection.createStatement();
+
+				for (int i = 0; i < table.getItems().size(); i++) {
+					if (tablecomplain.getItems().get(i).getCh().isSelected()) {
+					{
+						String sql = "SELECT * FROM Reports WHERE `ReporterName` = '" + tablecomplain.getItems().get(i).getUsername()
+								+ " '  AND `ReporterEmail` = '" + tablecomplain.getItems().get(i).getEmail() + "'";
+
+						try {
+							ResultSet rs = stmt.executeQuery(sql);
+							if (rs.next()) {
+								String sq = "UPDATE `Reports` SET `ReporterStatus`= READ  WHERE `ReporterName` = '" + tablecomplain.getItems().get(i).getUsername() + "'";
+								
+								st = con.createStatement();		
+
+								st.executeUpdate(sq);
+
+							}
+							// System.out.println(rs.getString(1)+" "+rs.getString(2)+" " +
+							// rs.getString(3));
+						} catch (SQLException e) {
+							System.out.println("Please");
+							e.printStackTrace();
+						}
+
+					}
+				}
 				}
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
@@ -1396,7 +1441,6 @@ else
 						
 						String sql = "SELECT * FROM item WHERE ID = '" + table.getItems().get(i).getId()
 								+ " '  AND ID = '" + table.getItems().get(i).getId() + "'";
-
 						try {
 							ResultSet rs = stmt.executeQuery(sql);
 							if (rs.next()) {
