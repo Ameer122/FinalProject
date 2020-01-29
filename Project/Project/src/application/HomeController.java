@@ -74,6 +74,7 @@ public class HomeController implements Initializable {
 	ObservableList<Messages> MessagesList = FXCollections.observableArrayList(); // Messages Table View
 //Current Date//
   Date date= new Date();
+  
 	public long refund = 0;  
 	  long timer = date.getTime();
 	  Timestamp today = new Timestamp(timer);//Current Date
