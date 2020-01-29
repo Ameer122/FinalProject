@@ -82,6 +82,7 @@ public FileInputStream fis;
 	private StringProperty description;
 	private StringProperty price;
 	private CheckBox checkbox;
+	private byte[] img;
     @FXML
     private Button Attach;
     
@@ -270,12 +271,13 @@ cl.sendtoserver();
 			e.printStackTrace();
 		}
     }
-    void ItemControllers(String id, String name, String description, String price, CheckBox ch)
+    void ItemControllers(String id, String name, String description, String price, CheckBox ch )
     {
     	this.id = new SimpleStringProperty(id);
     	this.description = new SimpleStringProperty(description);
     	this.name = new SimpleStringProperty(name);
     	this.price = new SimpleStringProperty(price);
+    	
     this.checkbox = ch;
     	
     }
@@ -344,6 +346,12 @@ public CheckBox getCheckbox() {
 }
 public void setCheckbox(CheckBox checkbox) {
 	this.checkbox = checkbox;
+}
+public byte[] getImg() {
+	return img;
+}
+public void setImg(byte[] img) {
+	this.img = img;
 }
 }
 
