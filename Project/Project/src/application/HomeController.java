@@ -1484,7 +1484,9 @@ else
 				SubscriptionController sub = loader.getController();
 				Stage stage = new Stage();
 				stage.setScene(new Scene(root));
-				stage.show();							
+				stage.show();	
+				sub.recived1(user.getUsername());
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1558,6 +1560,7 @@ user.setType(resultset.getString(12));
 							edititem.setVisible(true);
 							OrderRepbtn.setVisible(true);
 							Salebtn.setVisible(true);
+							subscribeBtn.setVisible(false);
 						}
 						
 						addbus.setVisible(true);
