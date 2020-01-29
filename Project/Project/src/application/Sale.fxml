@@ -13,35 +13,48 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <Button fx:id="confirmSaleBtn" layoutX="382.0" layoutY="316.0" mnemonicParsing="false" onAction="#ConfirmSale" text="Confirm sale" visible="false" />
-      <Button fx:id="CancelBtn" layoutX="74.0" layoutY="316.0" mnemonicParsing="false" onAction="#ReturnToMain" text="Cancel" visible="false" />
+      <Button fx:id="confirmSaleBtn" layoutX="384.0" layoutY="347.0" mnemonicParsing="false" onAction="#ConfirmSale" text="Confirm sale" />
+      <Button fx:id="CancelBtn" layoutX="74.0" layoutY="347.0" mnemonicParsing="false" onAction="#ReturnToMain" text="Back" />
       <Pane fx:id="SelectionPane" layoutX="79.0" layoutY="153.0" prefHeight="126.0" prefWidth="238.0">
          <children>
             <Button fx:id="SelectNameBtn" layoutY="14.0" mnemonicParsing="false" onAction="#getProductNames" text="Select Product by name" />
             <Button fx:id="Selectid" layoutY="63.0" mnemonicParsing="false" onAction="#getProductIDs" text="Select Product by id" />
          </children>
       </Pane>
-      <Pane fx:id="ProductIDPane" layoutX="74.0" layoutY="153.0" prefHeight="126.0" prefWidth="216.0" visible="false">
+      <Pane fx:id="ProductIDPane" layoutX="74.0" layoutY="153.0" prefHeight="158.0" prefWidth="216.0" visible="false">
          <children>
-            <ComboBox fx:id="ProductIDCB" layoutY="24.0" prefWidth="150.0" promptText="Product ID" />
+            <ComboBox fx:id="ProductIDCB" layoutY="24.0" prefHeight="31.0" prefWidth="165.0" promptText="Product ID" />
             <Label layoutY="77.0" text="Sale % :">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="salePercentTXT2" layoutX="75.0" layoutY="75.0" prefHeight="31.0" prefWidth="77.0" />
+            <TextField fx:id="salePercentTXT2" layoutX="75.0" layoutY="75.0" prefHeight="31.0" prefWidth="89.0" />
+            <Label fx:id="storeNIDLBL" layoutY="123.0" text="Store number :">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="StoreNIDTXT" layoutX="122.0" layoutY="121.0" prefHeight="31.0" prefWidth="40.0" />
          </children>
       </Pane>
-      <Pane fx:id="ProductNamePane" layoutX="74.0" layoutY="153.0" prefHeight="126.0" prefWidth="216.0" visible="false">
+      <Pane fx:id="ProductNamePane" layoutX="74.0" layoutY="153.0" prefHeight="164.0" prefWidth="216.0" visible="false">
          <children>
-            <ComboBox fx:id="ProductNameCB" layoutY="25.0" prefWidth="150.0" promptText="Product name" />
+            <ComboBox fx:id="ProductNameCB" layoutY="25.0" prefHeight="31.0" prefWidth="165.0" promptText="Product name" />
             <Label layoutY="79.0" text="Sale % :">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="salePercent1TXT" layoutX="75.0" layoutY="77.0" prefHeight="31.0" prefWidth="77.0" />
+            <TextField fx:id="salePercent1TXT" layoutX="75.0" layoutY="77.0" prefHeight="31.0" prefWidth="89.0" />
+            <Label fx:id="storeNNameLBL" layoutX="-3.0" layoutY="120.0" text="Store number :">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="StoreNNameTXT" layoutX="120.0" layoutY="118.0" prefHeight="31.0" prefWidth="40.0" />
          </children>
       </Pane>
+      <Label fx:id="confirmationLBL" layoutX="317.0" layoutY="443.0" prefHeight="26.0" prefWidth="152.0" />
    </children>
 </AnchorPane>
