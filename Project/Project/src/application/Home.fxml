@@ -102,6 +102,18 @@
                   <Insets left="50.0" />
                </padding>
             </Button>
+            <Button fx:id="subscribeBtn" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="240.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="302.0" stylesheets="@application.css" text="Subscribe" textFill="WHITE" visible="false">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_Home_32px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </Button>
             <Button fx:id="btnuser" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="302.0" stylesheets="@application.css" text="Users" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
