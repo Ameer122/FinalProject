@@ -775,17 +775,18 @@ stms.setString(5, Timestamp.valueOf(orderdat.getValue().atTime(0,0)).toString())
 					stms.setString(11, orderaddress.getText());
 					stms.setString(12, user.getType());
 					stms.executeUpdate();
-					{
-						String sql2 = "DELETE FROM `Busket` WHERE `Username` = ?";
-						stm = con.prepareStatement(sql2);
-						stm.setString(1, user.getUsername());
-						stm.executeUpdate();
-						stm.close();
-					}
-					BusketList.clear();
-					tablepursh.setItems(null);
-					tablepursh.setItems(BusketList);
+					
 				}
+				{
+					String sql2 = "DELETE FROM `Busket` WHERE `Username` = ?";
+					stm = con.prepareStatement(sql2);
+					stm.setString(1, user.getUsername());
+					stm.executeUpdate();
+					stm.close();
+				}
+				BusketList.clear();
+				tablepursh.setItems(null);
+				tablepursh.setItems(BusketList);
 				
 				{
 					
@@ -941,53 +942,8 @@ if(event.getSource() == backmsg)
 			Complaintpnl.setVisible(false);
 			UserControlpnl.setVisible(false);
 			Orderspnl.setVisible(false);
-			//oblist.clear();
-			DbConnect db = new DbConnect();
-
-			try {
-				int i = 0;
-				Connection connection = db.getConnection();
-				ResultSet rs = connection.createStatement().executeQuery("SELECT * From item");
-				while (rs.next()) {
-					CheckBox ch = new CheckBox("" + i);
-					ItemController s = new ItemController();
-					if(user.getType() != null)
-					{
-					if(user.getType().equals("1"))
-						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(6), ch);
-						else if(user.getType().equals("2"))
-						{
-							s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(7), ch);
-						}
-						
-					}
-					
-					else if(user.getType()==null)
-					{
-						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
-					}
-						
-					oblist.add(s);
-					i++;
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			idcol.setCellValueFactory(new PropertyValueFactory<>("id"));
-
-			namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-			descol.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-			pricecol.setCellValueFactory(new PropertyValueFactory<>("price"));
-			Selectcol.setCellValueFactory(new PropertyValueFactory<>("checkbox"));
-
-			table.setItems(null);
-			table.setItems(oblist);
-
-			table.setEditable(true);
-			idcol.setCellFactory(TextFieldTableCell.forTableColumn());
+			
+			
 		}
 
 		if (event.getSource() == complaintbtn) {
@@ -1051,8 +1007,6 @@ if(event.getSource() == backmsg)
 
 // TO DO
 				/*
-				
-				
 				
 				*/
 			} else {
@@ -1275,8 +1229,13 @@ else
 								st.setString(3, rs.getString(4));
 								st.setString(4, rs.getString(3));
 								st.setString(5, rs.getString(5));
-								st.executeUpdate();
 								
+								if(  st.executeUpdate()>0)
+								{
+								JOptionPane.showMessageDialog(null, "Your Request to remove your order has been received.");
+								CatControlpnl.setVisible(true);
+								CatControlpnl.toFront();
+								}
 							}
 							// System.out.println(rs.getString(1)+" "+rs.getString(2)+" " +
 							// rs.getString(3));
@@ -1297,7 +1256,7 @@ else
 		{
 			     ordersview.setVisible(false);
 			     ordersviewrequest.setVisible(true);
-			     oblist.clear();
+			     //oblist.clear();
 					DbConnect db = new DbConnect();
 					int i = 0;
 
@@ -1452,7 +1411,7 @@ else
 							// System.out.println(rs.getString(1)+" "+rs.getString(2)+" " +
 							// rs.getString(3));
 						} catch (SQLException e) {
-							// TODO Auto-generated catch block
+							System.out.println("Please");
 							e.printStackTrace();
 						}
 
@@ -1561,6 +1520,7 @@ user.setType(resultset.getString(12));
 						stms.setString(1, "1");
 						stms.executeUpdate();
 						btnlogin.setText("Logout");
+						labname.setText(user.getUsername());
 						CatControlpnl.toFront();
 						CatControlpnl.setVisible(true);
 						pnlCat.setVisible(true);
@@ -1603,6 +1563,9 @@ user.setType(resultset.getString(12));
 							//Salebtn.setVisible(true);
 
 						}
+						
+						
+						
 					} else {
 						System.out.println("You're Already online");
 					}
@@ -1629,7 +1592,7 @@ user.setType(resultset.getString(12));
 				userreg.setphone(tf_phone.getText());
 				userreg.setType(storecombo.getValue());
 				userreg.setrank("0");
-				user.setusername(tf_usernamesignup.getText());
+				/*user.setusername(tf_usernamesignup.getText());
 				user.setpassword(pf_passwordsignup.getText());
 				user.setemail(tf_emailSignup.getText());
 				user.setcard(tf_CardSignup.getText());
@@ -1638,7 +1601,7 @@ user.setType(resultset.getString(12));
 				user.setId(tf_IDSignup.getText());
 				user.setphone(tf_phone.getText());
 				user.setType(storecombo.getValue());
-				user.setrank("0");
+				user.setrank("0");*/
 			}
 
 			DbConnect db = new DbConnect();
@@ -1659,18 +1622,30 @@ user.setType(resultset.getString(12));
 				stms.setString(8, userreg.getphone());
 				stms.setString(9, userreg.getType());
 				if (stms.executeUpdate() > 0) {
-					client = new ClientConsole(user.getUsername(), "127.0.0.1", 5555);
+					//client = new ClientConsole(user.getUsername(), "127.0.0.1", 5555);
 				//	CatControlpnl.toFront();
 					Signuppan.setVisible(false);
-					Loginpan.setVisible(false);
+					Loginpan.setVisible(true);
 				//	labname.setText(user.getUsername());
 
 					//btnlogin.setVisible(false);
-					btnlogin.setText("Logout");
-					CatControlpnl.toFront();
-					Signuppan.setVisible(false);
-					Loginpan.setVisible(false);
-					labname.setText(user.getUsername());
+					//btnlogin.setText("Logout");
+					//CatControlpnl.toFront();
+					//Signuppan.setVisible(false);
+					//Loginpan.setVisible(false);
+					//labname.setText(user.getUsername());
+				//	System.out.println(user.getRank());
+				//if(user.getRank().equals("2"))
+					//{
+						//System.out.println("a");
+						//OrderRepbtn.setVisible(true);
+						//Salebtn.setVisible(true);
+				//	}
+					
+				//	addbus.setVisible(true);
+					//custom.setVisible(true);
+					//mybusket.setVisible(true);
+					//Selectcol.setVisible(true);
 				}
   /* stms.setString(3,  userreg.getPassword());    
    stms.setString(4, userreg.getId());
@@ -1689,6 +1664,9 @@ user.setType(resultset.getString(12));
   
      btnlogin.setVisible(false);
    }*/
+				
+				
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

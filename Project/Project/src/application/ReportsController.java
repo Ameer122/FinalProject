@@ -314,6 +314,7 @@ public class ReportsController {
 				
 			} 
 			else if (ReportDD.getText().equals("Orders by type")) {
+				complaintBar.setVisible(false);
 				String query = "Select * from Orders Where `Product Name` = '" + flowerTypeCB.getValue() + "'";
 				ResultSet rs = stmt.executeQuery(query);
 				while(rs.next()) {
@@ -517,6 +518,8 @@ public class ReportsController {
 	@FXML
 	void GetComplaints(ActionEvent event) {
 		ReportDD.setText("Complaints");
+		
+
 		ClearAllFields();
 		date1TXT.setVisible(false);
 		date1LBL.setVisible(false);
@@ -538,6 +541,7 @@ public class ReportsController {
 	@FXML
 	void MakeComparison(ActionEvent event) {
 		ReportDD.setText("Comparison");
+		complaintBar.setVisible(false);
 		ClearAllFields();
 		date1TXT.setVisible(true);
 		date1LBL.setVisible(true);
