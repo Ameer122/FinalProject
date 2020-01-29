@@ -818,6 +818,7 @@ if(event.getSource() == backmsg)
 	backmsg.setVisible(false);
 }
 		if (event.getSource() == mybusket) {
+			BusketList.clear();
 			Checkbusket.setVisible(true);
 			catpan.setVisible(false);
 			pnlCat.setVisible(false);
@@ -931,7 +932,7 @@ if(event.getSource() == backmsg)
 		}
 		if (event.getSource() == btncat) {
 			// pnlcat.setStyle("-fx-background-color : #1620A1");
-
+			Messagespnl.setVisible(false);
 			CatControlpnl.toFront();
 			CatControlpnl.setVisible(true);
 			Signuppan.setVisible(false);
@@ -961,6 +962,7 @@ if(event.getSource() == backmsg)
 							s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
 						}
 					}
+					
 					else if(user.getType()==null)
 					{
 						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
@@ -992,6 +994,7 @@ if(event.getSource() == backmsg)
 		if (event.getSource() == complaintbtn) {
 			CatControlpnl.setVisible(false);
 			Complaintpnl.setVisible(true);
+			Messagespnl.setVisible(false);
 
 			Signuppan.setVisible(false);
 			Loginpan.setVisible(false);
@@ -1117,6 +1120,7 @@ if(event.getSource() == backmsg)
 
 			CatControlpnl.setVisible(true);
 			Signuppan.setVisible(false);
+			Messagespnl.setVisible(false);
 
 			Complaintpnl.setVisible(false);
 			UserControlpnl.setVisible(false);
@@ -1152,6 +1156,7 @@ if(event.getSource() == backmsg)
 
 			CatControlpnl.setVisible(false);
 			Signuppan.setVisible(false);
+			Messagespnl.setVisible(false);
 
 			Complaintpnl.setVisible(false);
 			UserControlpnl.setVisible(false);
@@ -1161,6 +1166,15 @@ if(event.getSource() == backmsg)
 			Loginpan.setVisible(true);
 		}
 		if (event.getSource() == btnfee) {
+			Messagespnl.setVisible(false);
+if(user.getRank().equals("2"))
+{
+	removedorder.setVisible(true);
+}
+else
+{
+	removedorder.setVisible(false);
+}
 			Orderspnl.toFront();
 			CatControlpnl.setVisible(false);
 			Signuppan.setVisible(false);
@@ -1551,13 +1565,16 @@ user.setType(resultset.getString(12));
 						CatControlpnl.toFront();
 						CatControlpnl.setVisible(true);
 						pnlCat.setVisible(true);
+						Messagespnl.setVisible(false);
 						table.setVisible(true);
 						Signuppan.setVisible(false);
 						Loginpan.setVisible(false);
 						labname.setText(user.getUsername());
 //Buttons of catalog
-						if(user.getRank() == "2")
+						System.out.println(user.getRank());
+						if(user.getRank().equals("2"))
 						{
+							System.out.println("a");
 							additem.setVisible(true);
 							delitem.setVisible(true);
 							edititem.setVisible(true);
@@ -1682,6 +1699,7 @@ user.setType(resultset.getString(12));
 		if (event.getSource() == btnuser) {
 
 			UserControlpnl.toFront();
+			Messagespnl.setVisible(false);
 
 			CatControlpnl.setVisible(false);
 			Signuppan.setVisible(false);
