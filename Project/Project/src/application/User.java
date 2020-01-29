@@ -9,7 +9,8 @@ public class User {
 	private String username;
 	
 	private String password;
-	
+	   public ClientConsole cl;
+
 	private String email;
 	private String card;
 	private String Date;
@@ -20,7 +21,15 @@ public class User {
 //GET
 	
 
-	
+	   void received(ClientConsole client)
+	    {
+	    	cl = client;
+	    	/*if(this.bol == true) {
+	    	client.sendtoserver();
+	    	bol = false;
+	    	}*/
+	    	
+	    }
 	public String getId()
     {
     	return id;

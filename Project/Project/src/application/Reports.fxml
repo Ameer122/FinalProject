@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -77,5 +78,13 @@
       <TextField fx:id="StoreNum2TXT" layoutX="445.0" layoutY="154.0" onAction="#getStoreNum2" prefHeight="31.0" prefWidth="89.0" visible="false" />
       <Label fx:id="errorsLBL" layoutX="648.0" layoutY="48.0" prefHeight="50.0" prefWidth="205.0" visible="true" />
       <ComboBox fx:id="flowerTypeCB" layoutX="192.0" layoutY="103.0" prefWidth="150.0" promptText="Flower Type" visible="false" />
+      <BarChart fx:id="complaintBar" layoutX="97.0" layoutY="534.0" prefHeight="212.0" prefWidth="657.0" visible="false">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="yAxis" side="LEFT" />
+        </yAxis>
+      </BarChart>
    </children>
 </AnchorPane>

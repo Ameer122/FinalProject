@@ -952,15 +952,13 @@ if(event.getSource() == backmsg)
 					ItemController s = new ItemController();
 					if(user.getType() != null)
 					{
-					if(user.getType() == "1")
+					if(user.getType().equals("1"))
 						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(6), ch);
-						else if(user.getType() == "2")
+						else if(user.getType().equals("2"))
 						{
 							s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(7), ch);
 						}
-						else {
-							s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
-						}
+						
 					}
 					
 					else if(user.getType()==null)
@@ -1750,7 +1748,34 @@ user.setType(resultset.getString(12));
 			}
 
 		}
+		if (event.getSource() == edituser) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Edituser.fxml"));
 
+			try {
+				Parent root = (Parent) loader.load();
+				UserController userr = loader.getController();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(root));
+				stage.show();
+				User u = TableUser.getSelectionModel().getSelectedItem();
+				userr.textid.setText(user.getId());
+				userr.textCreditcard.setText(user.getCard());
+				userr.textemail.setText(user.getEmail());
+				userr.textfirstname.setText(user.getFirstname());
+				userr.textlastname.setText(user.getLastname());
+				userr.textPassword.setText(user.getPassword());
+				userr.textPhone.setText(user.getphone());
+				userr.textRank.setText(user.getRank());
+				userr.textUsername.setText(user.getUsername());
+			
+				userr.received(client);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 		if (event.getSource() == delitem) {
 			oblist.clear();
 			DbConnect db = new DbConnect();
@@ -1793,6 +1818,40 @@ user.setType(resultset.getString(12));
 			table.setEditable(true);
 			idcol.setCellFactory(TextFieldTableCell.forTableColumn());
 		}
+		if (event.getSource() == adduser) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Edituser.fxml"));
+			try {
+				Parent root = (Parent) loader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(root));
+				stage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if (event.getSource() == deluser) {
+			User t = TableUser.getSelectionModel().getSelectedItem();
+			DbConnect db = new DbConnect();
+			Connection connection = db.getConnection();
+			Connection con = db.getConnection();
+			Statement stmt;
+			try {
+
+					stmt = connection.createStatement();
+					
+			String p="DELETE FROM `users` WHERE Username = '"+t.getUsername()+"'";
+			stmt.executeUpdate(p);
+			stmt.close();
+			
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 
 	}
 

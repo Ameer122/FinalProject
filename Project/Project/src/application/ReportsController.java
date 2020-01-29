@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.util.Arrays;
 import java.util.Date;
 
 import javafx.collections.FXCollections;
@@ -14,6 +16,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -24,7 +30,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ReportsController {
-
+	final static String revoan1 = "revoan1";
+    final static String revoan2 = "revoan2";
+    final static String revoan3 = "revoan3";
+    final static String revoan4 = "revoan4";
+    
 	private int storeNum1 = -1;
 	private int storeNum2 = -1;
 	private String date1;
@@ -34,6 +44,17 @@ public class ReportsController {
 	ObservableList<Orders> OrdersList3 = FXCollections.observableArrayList();
 	ObservableList<Reports> ComplaintList = FXCollections.observableArrayList();
 	ObservableList<String> FlowerTypes = FXCollections.observableArrayList();
+	 ObservableList<String> monthNames = FXCollections.observableArrayList();
+	 final XYChart.Series<String, Number> series1 =
+	            new XYChart.Series<String, Number>();
+		final XYChart.Series<String, Number> series2 =
+	            new XYChart.Series<String, Number>();
+		 @FXML
+		  private BarChart<String,Number> complaintBar;
+		  @FXML
+		    private CategoryAxis xAxis;
+		    @FXML
+		    private NumberAxis yAxis;
 	@FXML
 	private TextField StoreNum1TXT;
 
@@ -42,6 +63,7 @@ public class ReportsController {
 
 	@FXML
 	private TextField date1TXT;
+	 
 
 	@FXML
 	private TextField date2TXT;
@@ -148,14 +170,21 @@ public class ReportsController {
 	@FXML
 	private Button compareBTN;
 	
+	
+	
 	@FXML
     private ComboBox<String> flowerTypeCB;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML
 	void GetReport(ActionEvent event) {
+		 monthNames.clear();
+		 ComplaintList.clear();
+		complaintBar.setVisible(false);
 		if (ReportDD.getText().equals("Report type")) {
 			return;
 		}
+		
 		TableOrder.setItems(null);
 		DbConnect db = new DbConnect();
 		Connection con = db.getConnection();
@@ -176,11 +205,65 @@ public class ReportsController {
 		}
 		try {
 			Statement stmt = con.createStatement();			
-			
+			int i1=0,i2=0,i3=0,i4=0,i11=0,i22=0,i33=0,i44=0;
 			if (ReportDD.getText().equals("Complaints")) {
+				complaintBar.setVisible(true);
 				String query = "Select * from Reports";
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
+					
+					String s = rs.getString(3);
+					int m1 =s.charAt(5)-48;
+					int m2 = s.charAt(6)-48;
+					int y1 =s.charAt(2)-48;
+					int y2 =s.charAt(3)-48;
+					int year = y1*10+y2;
+					int p = m1*10+m2;
+					System.out.print(p + " ");
+					if(p>=1 && p<=3)
+					{
+						if(year == 19)
+						{
+						i1++;
+						}
+						else
+						{
+							i11++;
+						}
+					}
+					if(p>=4 && p<=6)
+					{
+						if(year == 19)
+						{
+						i2++;
+						}
+						else
+						{
+							i22++;
+						}
+					}
+					if(p>=7 && p<=9)
+					{
+						if(year == 19)
+						{
+						i3++;
+						}
+						else
+						{
+							i33++;
+						}
+					}
+					if(p>=10 && p<=12)
+					{
+						if(year == 19)
+						{
+						i4++;
+						}
+						else
+						{
+							i44++;
+						}
+					}
 					Reports report = new Reports();
 					report.setusername(rs.getString(1));
 					report.setemail(rs.getString(2));
@@ -204,6 +287,31 @@ public class ReportsController {
 				TableComplaint.setItems(ComplaintList);
 				TableComplaint.refresh();
 				TableComplaint.setVisible(true);
+				
+				series1.getData().clear();
+				series2.getData().clear();
+				
+		        series1.setName("2019");  
+		        series1.getData().add(new XYChart.Data<String, Number>(revoan1,i1));
+		        series1.getData().add(new XYChart.Data<String, Number>(revoan2,i2));
+		        series1.getData().add(new XYChart.Data<String, Number>(revoan3,i3));
+		        series1.getData().add(new XYChart.Data<String, Number>(revoan4,i4));
+		        series2.setName("2020");  
+		        series2.getData().add(new XYChart.Data<String, Number>(revoan1,i11));
+		        series2.getData().add(new XYChart.Data<String, Number>(revoan2,i22));
+		        series2.getData().add(new XYChart.Data<String, Number>(revoan3,i33));
+		        series2.getData().add(new XYChart.Data<String, Number>(revoan4,i44));
+		        String [] months = new String [4];
+		        months[0]=revoan1;
+		        months[1]=revoan2;
+		        months[2]=revoan3;
+		        months[3]=revoan4;
+		       
+		        monthNames.addAll(Arrays.asList(months));
+		        xAxis.setCategories(monthNames);
+		        complaintBar.getData().addAll(series1,series2);
+		        
+				
 			} 
 			else if (ReportDD.getText().equals("Orders by type")) {
 				String query = "Select * from Orders Where `Product Name` = '" + flowerTypeCB.getValue() + "'";
