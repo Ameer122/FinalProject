@@ -172,7 +172,7 @@ a = file.length();
      	DbConnect db = new DbConnect();
      	Connection connection = db.getConnection();
 		try {
-			String q = "INSERT INTO item(ID,Name,Description,Price,Picture) VALUES(?,?,?,?,?)";
+			String q = "INSERT INTO item(ID,Name,Description,Price,Picture,Price1,Price2) VALUES(?,?,?,?,?,?,?)";
 			
 			//String sql = "INSERT INTO item VALUES('"+_ID+"','"+_name+"','"+_Description+"','"+_price+"', '"+fis+"')";
 			//Statement stmt = connection.createStatement();
@@ -184,6 +184,9 @@ a = file.length();
 stms.setString(3,  Desription.getText());    
 stms.setString(4, Price.getText());
 stms.setBinaryStream(5, fis, a);
+stms.setString(5, Price.getText());
+stms.setString(6, Price.getText());
+
 if(stms.executeUpdate()>0) {
 cl.sendtoserver();
 }

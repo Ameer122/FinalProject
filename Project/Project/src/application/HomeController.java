@@ -26,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -97,6 +98,9 @@ public class HomeController implements Initializable {
 	@FXML
 	private Pane catpan;
 
+    @FXML
+    private HBox buttoncatalog;
+    
 	@FXML
 	private Label labelname4;
 	@FXML
@@ -777,6 +781,9 @@ stms.setString(5, Timestamp.valueOf(orderdat.getValue().atTime(0,0)).toString())
 						stm.executeUpdate();
 						stm.close();
 					}
+					BusketList.clear();
+					tablepursh.setItems(null);
+					tablepursh.setItems(BusketList);
 				}
 				
 				{
@@ -860,13 +867,14 @@ if(event.getSource() == backmsg)
 			tablepursh.setItems(BusketList);
 			tablepursh.refresh();
 
-			int c = 0;
-			Orderpr.setText(Integer.toString(c));
+			double c = 0;
+			Orderpr.setText(Double.toString(c));
 			for (int i = 0; i < tablepursh.getItems().size(); i++) {
-				c += Integer.parseInt(tablepursh.getItems().get(i).getPrice())
-						* Integer.parseInt(tablepursh.getItems().get(i).getQuanity());
+				System.out.println(tablepursh.getItems().get(i).getPrice());
+				c += Double.parseDouble(tablepursh.getItems().get(i).getPrice())
+						* Double.parseDouble(tablepursh.getItems().get(i).getQuanity());
 			}
-			Orderpr.setText(Integer.toString(c));
+			Orderpr.setText(Double.toString(c));
 
 		}
 
@@ -882,7 +890,7 @@ if(event.getSource() == backmsg)
 				orderaddress.setDisable(true);
 
 			}
-			totalpr.setText(Integer.toString(Integer.parseInt(Orderpr.getText()) + Integer.parseInt(shippr.getText())));
+			totalpr.setText(Double.toString(Double.parseDouble(Orderpr.getText()) + Double.parseDouble(shippr.getText())));
 		}
 		if (event.getSource() == carde) {
 			if (carde.isSelected()) {
@@ -895,7 +903,7 @@ if(event.getSource() == backmsg)
 				textorder.setVisible(false);
 				//
 			}
-			totalpr.setText(Integer.toString(Integer.parseInt(Orderpr.getText()) + Integer.parseInt(Cardpr.getText())));
+			totalpr.setText(Double.toString(Double.parseDouble(Orderpr.getText()) + Double.parseDouble(Cardpr.getText())));
 		}
 
 		// Ends here
@@ -931,6 +939,54 @@ if(event.getSource() == backmsg)
 			Complaintpnl.setVisible(false);
 			UserControlpnl.setVisible(false);
 			Orderspnl.setVisible(false);
+			oblist.clear();
+			DbConnect db = new DbConnect();
+
+			try {
+				int i = 0;
+				Connection connection = db.getConnection();
+				ResultSet rs = connection.createStatement().executeQuery("SELECT * From item");
+				while (rs.next()) {
+					CheckBox ch = new CheckBox("" + i);
+					ItemController s = new ItemController();
+					if(user.getType() != null)
+					{
+					if(user.getType() == "1")
+						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(6), ch);
+						else if(user.getType() == "2")
+						{
+							s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(7), ch);
+						}
+						else {
+							s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
+						}
+					}
+					else if(user.getType()==null)
+					{
+						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
+					}
+						
+					oblist.add(s);
+					i++;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			idcol.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+			namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+			descol.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+			pricecol.setCellValueFactory(new PropertyValueFactory<>("price"));
+			Selectcol.setCellValueFactory(new PropertyValueFactory<>("checkbox"));
+
+			table.setItems(null);
+			table.setItems(oblist);
+
+			table.setEditable(true);
+			idcol.setCellFactory(TextFieldTableCell.forTableColumn());
 		}
 
 		if (event.getSource() == complaintbtn) {
@@ -1015,6 +1071,7 @@ if(event.getSource() == backmsg)
 				stms = connection.prepareStatement(q);
 				stms.setString(1, user.getUsername());
 				stms.setString(2, user.getEmail());
+				System.out.println(user.getphone());
 				stms.setString(3, user.getphone()); // Should be changed soon
 				stms.setString(4, report.getComplain());
 				stms.setString(5, "Pending");
@@ -1069,7 +1126,25 @@ if(event.getSource() == backmsg)
 			Signuppan.setVisible(false);
 			Loginpan.setVisible(false);
 			btnlogin.setText("Login");
-
+			OrderRepbtn.setVisible(false);
+			Salebtn.setVisible(false);
+			complaintbtn.setVisible(false);
+			messagesbtn.setVisible(false);
+			 btnfee.setVisible(false);
+			  
+				btnuser.setVisible(false);
+				
+				//buttons 
+				additem.setVisible(false);
+				delitem.setVisible(false);
+				edititem.setVisible(false);
+				addbus.setVisible(false);
+				custom.setVisible(false);
+				mybusket.setVisible(false);
+				Selectcol.setVisible(false);
+				//
+				
+				
 		}
 
 		else if (event.getSource() == btnlogin && btnlogin.getText().equals("Login")) {
@@ -1301,7 +1376,7 @@ if(event.getSource() == backmsg)
 									System.out.println("Refund Everything");
 								}
 								stm = con.createStatement();
-							if(stm.execute(sql1));
+						/*	if(stm.execute(sql1));
 							{
 								stm.close();
 								String sql2 = "DELETE FROM `Orders` WHERE `Customer` = '" + rs.getString(1) + " '  AND `Product Name` = '"
@@ -1309,7 +1384,7 @@ if(event.getSource() == backmsg)
 								stm = con.createStatement();
 								stm.execute(sql2);
 								stm.close();
-							}
+							}*/
 					
 
 
@@ -1459,12 +1534,14 @@ if(event.getSource() == backmsg)
 						user.setfirstname(resultset.getString(2));
 						user.setlastname(resultset.getString(3));
 						user.setemail(resultset.getString(4));
+						user.setusername(resultset.getString(5));
+						user.setpassword(resultset.getString(6));
 						user.setcard(resultset.getString(7));
 						user.setDate(resultset.getString(8));
 						user.setStatus(resultset.getString(9));
 						user.setrank(resultset.getString(10));
 						user.setphone(resultset.getString(11));
-						user.setType(resultset.getString(12));
+user.setType(resultset.getString(12));
 						PreparedStatement stms;
 						String q = "update users set Status = ? where username = '" + user.getUsername() + "'";
 						stms = connection.prepareStatement(q);
@@ -1472,19 +1549,42 @@ if(event.getSource() == backmsg)
 						stms.executeUpdate();
 						btnlogin.setText("Logout");
 						CatControlpnl.toFront();
+						CatControlpnl.setVisible(true);
+						pnlCat.setVisible(true);
+						table.setVisible(true);
 						Signuppan.setVisible(false);
 						Loginpan.setVisible(false);
 						labname.setText(user.getUsername());
-
-						// btnlogin.setText(user.getUsername());
-						// btnlogin.setDisable(true);
-
-						if (resultset.getString(10).equals("2")) {
-							btnuser.setVisible(true);
-							btnworker.setVisible(true);
-							btnsetting.setVisible(true);
+//Buttons of catalog
+						if(user.getRank() == "2")
+						{
+							additem.setVisible(true);
+							delitem.setVisible(true);
+							edititem.setVisible(true);
 							OrderRepbtn.setVisible(true);
 							Salebtn.setVisible(true);
+						}
+						
+						addbus.setVisible(true);
+						custom.setVisible(true);
+						mybusket.setVisible(true);
+						Selectcol.setVisible(true);
+						
+						
+						
+						//Buttons of catalog
+						// btnlogin.setText(user.getUsername());
+						// btnlogin.setDisable(true);
+						
+						complaintbtn.setVisible(true);
+						messagesbtn.setVisible(true);
+						 btnfee.setVisible(true);
+						if (resultset.getString(10).equals("2")) {
+							btnuser.setVisible(true);
+							//btnworker.setVisible(true);
+							//btnsetting.setVisible(true);
+						//	OrderRepbtn.setVisible(true);
+							//Salebtn.setVisible(true);
 
 						}
 					} else {
@@ -1502,6 +1602,7 @@ if(event.getSource() == backmsg)
 		if (event.getSource() == signupbtn) {
 
 			{
+				
 				userreg.setusername(tf_usernamesignup.getText());
 				userreg.setpassword(pf_passwordsignup.getText());
 				userreg.setemail(tf_emailSignup.getText());
@@ -1511,11 +1612,22 @@ if(event.getSource() == backmsg)
 				userreg.setId(tf_IDSignup.getText());
 				userreg.setphone(tf_phone.getText());
 				userreg.setType(storecombo.getValue());
+				userreg.setrank("0");
+				user.setusername(tf_usernamesignup.getText());
+				user.setpassword(pf_passwordsignup.getText());
+				user.setemail(tf_emailSignup.getText());
+				user.setcard(tf_CardSignup.getText());
+				user.setfirstname(tf_firstnameSignup.getText());
+				user.setlastname(tf_LastNameSignup.getText());
+				user.setId(tf_IDSignup.getText());
+				user.setphone(tf_phone.getText());
+				user.setType(storecombo.getValue());
+				user.setrank("0");
 			}
 
 			DbConnect db = new DbConnect();
 			Connection connection = db.getConnection();
-			String q = "INSERT INTO users(username,email,password,ID,Firstname,Lastname,CreditCard,phone) VALUES(?,?,?,?,?,?,?,?)";
+			String q = "INSERT INTO users(username,email,password,ID,Firstname,Lastname,CreditCard,phone,Type) VALUES(?,?,?,?,?,?,?,?,?)";
 
 			PreparedStatement stms;
 			try {
@@ -1532,14 +1644,19 @@ if(event.getSource() == backmsg)
 				stms.setString(9, userreg.getType());
 				if (stms.executeUpdate() > 0) {
 					client = new ClientConsole(user.getUsername(), "127.0.0.1", 5555);
+				//	CatControlpnl.toFront();
+					Signuppan.setVisible(false);
+					Loginpan.setVisible(false);
+				//	labname.setText(user.getUsername());
+
+					//btnlogin.setVisible(false);
+					btnlogin.setText("Logout");
 					CatControlpnl.toFront();
 					Signuppan.setVisible(false);
 					Loginpan.setVisible(false);
 					labname.setText(user.getUsername());
-
-					btnlogin.setVisible(false);
 				}
-   stms.setString(3,  userreg.getPassword());    
+  /* stms.setString(3,  userreg.getPassword());    
    stms.setString(4, userreg.getId());
    stms.setString(5,userreg.getFirstname());
    stms.setString(6,userreg.getLastname());
@@ -1555,7 +1672,7 @@ if(event.getSource() == backmsg)
      labname.setText(user.getUsername());
   
      btnlogin.setVisible(false);
-   }
+   }*/
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1627,7 +1744,15 @@ if(event.getSource() == backmsg)
 				while (rs.next()) {
 					CheckBox ch = new CheckBox("" + i);
 					ItemController s = new ItemController();
-					s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
+					if(user.getType() == "1")
+					s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(6), ch);
+					else if(user.getType() == "2")
+					{
+						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(7), ch);
+					}
+					else {
+						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
+					}
 					oblist.add(s);
 					i++;
 				}
@@ -1708,7 +1833,23 @@ if(event.getSource() == backmsg)
 			while (rs.next()) {
 				CheckBox ch = new CheckBox("" + i);
 				ItemController s = new ItemController();
-				s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
+				if(user.getType() != null)
+				{
+				if(user.getType() == "1")
+					s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(6), ch);
+					else if(user.getType() == "2")
+					{
+						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(7), ch);
+					}
+					else {
+						s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
+					}
+				}
+				else if(user.getType()==null)
+				{
+					s.ItemControllers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), ch);
+				}
+					
 				oblist.add(s);
 				i++;
 			}
