@@ -1,6 +1,7 @@
 package application;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -40,12 +41,20 @@ public class SubscriptionController {
     	}
     	DbConnect db = new DbConnect();
 		Connection con = db.getConnection();
-		Statement stmt;
+		Statement stmt, stmt2;
 		try {
 			stmt = con.createStatement();
-	    	String query = "UPDATE users SET Subsciption= '" + typeMenu.getText()+ "' where username = '" + username +"'";
-	    	stmt.executeUpdate(query);
-	    	confimLbl.setText("Confirmed");
+			stmt2 = con.createStatement();
+			String query = "Select Subsciption from users Where username = '" + username +"'";
+			ResultSet rs = stmt2.executeQuery(query);
+			while(rs.next()) {
+				//System.out.println(rs.getString(1));
+				if(!rs.getString(1).equals("Monthly") && !rs.getString(1).equals("Yearly")) {
+			    	query = "UPDATE users SET Subsciption= '" + typeMenu.getText()+ "' where username = '" + username +"'";
+			    	stmt.executeUpdate(query);
+			    	confimLbl.setText("Confirmed");
+				}
+			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
