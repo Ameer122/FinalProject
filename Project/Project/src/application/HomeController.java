@@ -941,7 +941,7 @@ if(event.getSource() == backmsg)
 			Complaintpnl.setVisible(false);
 			UserControlpnl.setVisible(false);
 			Orderspnl.setVisible(false);
-			oblist.clear();
+			//oblist.clear();
 			DbConnect db = new DbConnect();
 
 			try {
