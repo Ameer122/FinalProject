@@ -82,6 +82,8 @@ public class HomeController implements Initializable {
 	public User userreg = new User();
 	public Reports report = new Reports();
 	@FXML
+    private Button subscribeBtn;
+	@FXML
 	private ResourceBundle resources;
 	@FXML
 	private Pane userpan;
@@ -1130,6 +1132,7 @@ if(event.getSource() == backmsg)
 			Loginpan.setVisible(false);
 			btnlogin.setText("Login");
 			OrderRepbtn.setVisible(false);
+			subscribeBtn.setVisible(false);
 			Salebtn.setVisible(false);
 			complaintbtn.setVisible(false);
 			messagesbtn.setVisible(false);
@@ -1514,6 +1517,21 @@ else
 			}
 		}
 		
+		if (event.getSource() == subscribeBtn) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Subscription.fxml"));
+
+			try {
+				Parent root = (Parent) loader.load();
+				SubscriptionController sub = loader.getController();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(root));
+				stage.show();							
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		if (event.getSource() == Salebtn) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Sale.fxml"));
 
@@ -1568,6 +1586,7 @@ user.setType(resultset.getString(12));
 						table.setVisible(true);
 						Signuppan.setVisible(false);
 						Loginpan.setVisible(false);
+						subscribeBtn.setVisible(true);
 						labname.setText(user.getUsername());
 //Buttons of catalog
 						System.out.println(user.getRank());
