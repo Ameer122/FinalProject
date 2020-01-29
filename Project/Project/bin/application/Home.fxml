@@ -59,18 +59,6 @@
                   <Insets left="50.0" />
                </padding>
             </Button>
-            <Button fx:id="btnfee" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="302.0" stylesheets="@application.css" text="Orders" textFill="WHITE">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Home_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </Button>
             <Button fx:id="btnlogin" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="191.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="302.0" stylesheets="@application.css" text="Login" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
@@ -83,7 +71,19 @@
                   <Insets left="50.0" />
                </padding>
             </Button>
-            <Button fx:id="complaintbtn" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="256.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="302.0" stylesheets="@application.css" text="Complains" textFill="WHITE">
+            <Button fx:id="btnfee" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="302.0" stylesheets="@application.css" text="Orders" textFill="WHITE" visible="false">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_Home_32px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="complaintbtn" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="256.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="302.0" stylesheets="@application.css" text="Complains" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -147,7 +147,7 @@
                   <Insets left="50.0" />
                </padding>
             </Button>
-            <Button fx:id="messagesbtn" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="302.0" stylesheets="@application.css" text="Messages" textFill="WHITE">
+            <Button fx:id="messagesbtn" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="302.0" stylesheets="@application.css" text="Messages" textFill="WHITE" visible="false">
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -599,15 +599,15 @@
                                     <TableColumn fx:id="descol" onEditCommit="#ChangeD" prefWidth="75.0" text="Item Description" />
                                     <TableColumn fx:id="pricecol" onEditCommit="#Changeprice" prefWidth="75.0" text="Price" />
                                     <TableColumn fx:id="piccol" prefWidth="191.2000732421875" text="Item picture" />
-                                    <TableColumn fx:id="Selectcol" onEditCommit="#ChangeID" prefWidth="47.9998779296875" text="Select" />
+                                    <TableColumn fx:id="Selectcol" onEditCommit="#ChangeID" prefWidth="47.9998779296875" text="Select" visible="false" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
-                              <HBox prefHeight="20.0" prefWidth="719.0" spacing="10.0">
+                              <HBox fx:id="buttoncatalog" prefHeight="20.0" prefWidth="719.0" spacing="10.0">
                                  <children>
-                                    <Button fx:id="additem" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="22.0" prefWidth="146.0" stylesheets="@application.css" text="Add Item" textFill="WHITE">
+                                    <Button fx:id="additem" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="22.0" prefWidth="146.0" stylesheets="@application.css" text="Add Item" textFill="WHITE" visible="false">
                                        <graphic>
                                           <ImageView fitHeight="17.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -616,7 +616,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="delitem" graphicTextGap="10.0" layoutX="335.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="22.0" prefWidth="146.0" stylesheets="@application.css" text="Refresh Table!" textFill="WHITE">
+                                    <Button fx:id="delitem" graphicTextGap="10.0" layoutX="335.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="22.0" prefWidth="146.0" stylesheets="@application.css" text="Refresh Table!" textFill="WHITE" visible="false">
                                        <graphic>
                                           <ImageView fitHeight="17.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -625,7 +625,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="edititem" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="22.0" prefWidth="146.0" stylesheets="@application.css" text="Edit Item" textFill="WHITE">
+                                    <Button fx:id="edititem" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="22.0" prefWidth="146.0" stylesheets="@application.css" text="Edit Item" textFill="WHITE" visible="false">
                                        <graphic>
                                           <ImageView fitHeight="17.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -634,8 +634,8 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="addbus" mnemonicParsing="false" onAction="#handleClicks" stylesheets="@application.css" text="Add to Buscket" textFill="WHITE" />
-                                    <Button fx:id="custom" mnemonicParsing="false" onAction="#handleClicks" stylesheets="@application.css" text="Custom Item" textFill="WHITE" />
+                                    <Button fx:id="addbus" mnemonicParsing="false" onAction="#handleClicks" stylesheets="@application.css" text="Add to Buscket" textFill="WHITE" visible="false" />
+                                    <Button fx:id="custom" mnemonicParsing="false" onAction="#handleClicks" stylesheets="@application.css" text="Custom Item" textFill="WHITE" visible="false" />
                                  </children>
                               </HBox>
                            </children>
@@ -718,7 +718,7 @@
                         <Button fx:id="backcat" layoutX="458.0" layoutY="538.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="25.0" prefWidth="82.0" stylesheets="@application.css" text="Back" textFill="WHITE" />
                      </children>
                   </Pane>
-                  <Button fx:id="mybusket" layoutX="634.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleClicks" stylesheets="@application.css" text="My Busket" textFill="WHITE" />
+                  <Button fx:id="mybusket" layoutX="634.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleClicks" stylesheets="@application.css" text="My Busket" textFill="WHITE" visible="false" />
                </children>
             </Pane>
             <Pane fx:id="Messagespnl" prefHeight="399.0" prefWidth="722.0" visible="false">
