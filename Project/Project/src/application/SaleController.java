@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
@@ -54,10 +55,28 @@ public class SaleController {
     @FXML
     private TextField salePercentTXT2;
     
+	@FXML
+	private Label storeNIDLBL;
+	
+	@FXML
+	private TextField StoreNIDTXT;
+	
+	@FXML
+	private Label storeNNameLBL;
+	
+	@FXML
+	private TextField StoreNNameTXT;
+	
+	@FXML
+    private Label confirmationLBL;
+	
     @FXML
     void ReturnToMain(ActionEvent event) {
     	salePercent1TXT.clear();
     	salePercentTXT2.clear();
+    	confirmationLBL.setText("");
+    	StoreNIDTXT.clear();
+    	StoreNNameTXT.clear();
     	ProductNameCB.getSelectionModel().clearAndSelect(0);
     	ProductIDCB.getSelectionModel().clearAndSelect(0);
     	ProductNamePane.setVisible(false);
@@ -119,7 +138,7 @@ public class SaleController {
 		}
     }
 
-    private void updateDatabase(int num, double sale) {
+    private void updateDatabase(int num, double sale, int storeNum) {
     	String query;
     	DbConnect db = new DbConnect();
 		Connection con = db.getConnection();
@@ -127,11 +146,11 @@ public class SaleController {
 		try {
 			stmt = con.createStatement();		
 	    	if(num ==1) { // change db based on name
-	    		query = "UPDATE `item` SET `Price`= `Price`*" + (sale/100) + " where Name = '" + ProductNameCB.getSelectionModel().getSelectedItem() + "'";
+	    		query = "UPDATE `item` SET `Price" + storeNum+ "`= `Price`*" + (sale/100) + " where Name = '" + ProductNameCB.getSelectionModel().getSelectedItem() + "'";
 	    		
 	    	}
 	    	else {
-	    		query = "UPDATE `item` SET `Price`= `Price`*" + (sale/100) + " where ID = '" + ProductIDCB.getSelectionModel().getSelectedItem() + "'";
+	    		query = "UPDATE `item` SET `Price" + storeNum+ "`= `Price`*" + (sale/100) + " where ID = '" + ProductIDCB.getSelectionModel().getSelectedItem() + "'";
 	    		
 	    	}
 	    	stmt.executeUpdate(query);
@@ -146,13 +165,15 @@ public class SaleController {
     		if(salePercent1TXT.getText() == null) {
     			return;
     		}   		
-    		updateDatabase(1, Double.parseDouble(salePercent1TXT.getText()));
+    		updateDatabase(1, Double.parseDouble(salePercent1TXT.getText()), Integer.parseInt(StoreNNameTXT.getText()));
+    		confirmationLBL.setText("Confirmed");
     	}
     	if (ProductIDPane.isVisible()) {
     		if(salePercentTXT2.getText() == null) {
     			return;
     		}
-    		updateDatabase(2, Double.parseDouble(salePercentTXT2.getText()));	
+    		updateDatabase(2, Double.parseDouble(salePercentTXT2.getText()),Integer.parseInt(StoreNIDTXT.getText()));
+    		confirmationLBL.setText("Confirmed");
     	}    	
     	
     }
